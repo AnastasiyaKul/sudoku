@@ -37,7 +37,8 @@ let hasZeros = function(matrix) {
 module.exports = function solveSudoku(matrix) {
 
   while(hasZeros(matrix)) {
-    var sets = [];
+    let sets = [];
+    let isEdited = false;
 
     for (let i = 0; i < 9; i++) {
       sets.push([]);
@@ -51,7 +52,7 @@ module.exports = function solveSudoku(matrix) {
 
           if (set.size === 1) {
             matrix[i][j] = set.values().next().value;
-            // set.clear();
+            isEdited = true;
           }
 
         }
@@ -79,6 +80,7 @@ module.exports = function solveSudoku(matrix) {
               for (let c = j; c < j + 3; c++) {
                 if(sets[r][c].has(item)) {
                   matrix[r][c] = item;
+                  isEdited = true;
                 }
               }
             }
@@ -101,6 +103,7 @@ module.exports = function solveSudoku(matrix) {
           for (let j = 0; j < 9; j++) {
             if(sets[i][j].has(item)) {
               matrix[i][j] = item;
+              isEdited = true;
             }
           }
         }
@@ -120,12 +123,13 @@ module.exports = function solveSudoku(matrix) {
           for (let i = 0; i < 9; i++) {
             if(sets[i][j].has(item)) {
               matrix[i][j] = item;
+              isEdited = true;
             }
           }
         }
       }
     }
-
+    if(!isEdited) {break}
   }
 
   return matrix;
